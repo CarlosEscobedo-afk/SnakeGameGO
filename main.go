@@ -1,17 +1,11 @@
 package main
 
+import "fmt"
+
 var N, M int
 
 type Grilla [][]string
 
-/*
-	for i := 0; i < 5; i++ {
-		for j := 0; j < 7; j++ {
-			fmt.Print(grilla[i][j])
-		}
-		fmt.Println("")
-	}
-*/
 
 func crearGrillaVacia(M int, N int) Grilla {
 	var grilla Grilla
@@ -21,9 +15,25 @@ func crearGrillaVacia(M int, N int) Grilla {
 	}
 	return grilla
 }
-
+func llenarGrilla(grilla Grilla, M int, N int) {
+	for i := 0; i < M; i++ {
+		for j := 0; j < N; j++ {
+			grilla[i][j] = "*"
+		}
+	}
+}
+func mostrarGrilla(grilla Grilla, M int, N int) {
+	for i := 0; i < M; i++ {
+		for j := 0; j < N; j++ {
+			fmt.Print(grilla[i][j])
+		}
+		fmt.Println("")
+	}
+}
 func main() {
-	M = 10
-	N = 9
+	M = 5
+	N = 10
 	var grilla = crearGrillaVacia(M, N)
+	llenarGrilla(grilla, M, N)
+	mostrarGrilla(grilla, M, N)
 }
