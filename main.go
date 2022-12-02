@@ -101,10 +101,12 @@ func posicionInicialSerpientes(s *Snake, grilla MyGrilla) {
 	grilla[serpX][serpY+1] = "□"
 }
 
+// 0 arriba;		1 abajo;	2 izquierda;	3 derecha
 func verificar() {
 	n, o := Dir, oldDir
 	if (n == 0 && o == 1) || (n == 1 && o == 0) || (n == 3 && o == 2) || (n == 2 && o == 3) {
 		Dir = oldDir
+		fmt.Println("N:", n, "o:", o)
 	}
 }
 
@@ -124,6 +126,7 @@ func celdaSig(coord Coords, dir byte, grilla MyGrilla) (Coords, bool) {
 		tempCoord.Y += 1
 		break
 	}
+
 	// Golpear la pared
 	if tempCoord.X >= ancho || tempCoord.Y >= largo || tempCoord.X < 0 || tempCoord.Y < 0 {
 		return tempCoord, false
@@ -196,9 +199,17 @@ func main() {
 		//Movimiento serpiente
 		for {
 			last := int(len(snake1.Cola) - 1)
+
 			time.Sleep(time.Millisecond * time.Duration(100))
 			if posComida.X > snake1.Cola[last].X {
 				time.Sleep(time.Millisecond * time.Duration(100))
+				if Dir == 0 && snake1.Cola[last].Y-1 > 0 {
+					oldDir = 0
+					ch1 <- 2
+				} else if Dir == 0 && snake1.Cola[last].Y-1 == 0 {
+					oldDir = 0
+					ch1 <- 3
+				}
 				ch1 <- 1
 			} else if posComida.X < snake1.Cola[last].X {
 				time.Sleep(time.Millisecond * time.Duration(100))
@@ -206,9 +217,31 @@ func main() {
 			} else if posComida.X == snake1.Cola[last].X {
 				time.Sleep(time.Millisecond * time.Duration(100))
 				if posComida.Y > snake1.Cola[last].Y {
-					ch1 <- 3
+					//Estos aun estan con pruebas
+					if Dir == 2 && snake1.Cola[last].X-1 > 0 {
+						fmt.Println("<- to up")
+						oldDir = 2
+						ch1 <- 0
+					} else if Dir == 2 && snake1.Cola[last].X-1 == 0 {
+						fmt.Println("<- to down")
+						oldDir = 2
+						ch1 <- 1
+					} else {
+						ch1 <- 3
+					}
+
 				} else if posComida.Y < snake1.Cola[last].Y {
-					ch1 <- 2
+					if Dir == 3 && snake1.Cola[last].X-1 > 0 {
+						fmt.Println("-> to up")
+						oldDir = 3
+						ch1 <- 0
+					} else if Dir == 3 && snake1.Cola[last].X-1 == 0 {
+						fmt.Println("-> to down")
+						oldDir = 3
+						ch1 <- 1
+					} else {
+						ch1 <- 2
+					}
 				}
 			}
 			//Deadlock
