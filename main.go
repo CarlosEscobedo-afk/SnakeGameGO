@@ -218,6 +218,8 @@ func main() {
 				time.Sleep(time.Millisecond * time.Duration(100))
 				if posComida.Y > snake1.Cola[last].Y {
 					//Estos aun estan con pruebas
+					//Condiciones para "evitar" Deadlock
+					//if Dir == 2 && snake1.Cola[last].X-1 > 0 && grilla[snake1.Cola[last].X-1][snake1.Cola[last].Y] == "" {
 					if Dir == 2 && snake1.Cola[last].X-1 > 0 {
 						fmt.Println("<- to up")
 						oldDir = 2
