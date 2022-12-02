@@ -163,7 +163,7 @@ func main() {
 	//Argumentos
 	ancho1 := flag.Int("ancho", 0, "El ancho de la grilla.")
 	largo1 := flag.Int("largo", 18, "El largo de la grilla.")
-	vel1 := flag.Int("largo", 18, "El largo de la grilla.")
+	vel1 := flag.Int("velocidad", 20, "La velocidad de la grilla.")
 	flag.Parse()
 	fmt.Println("Ancho = ", *ancho1)
 	fmt.Println("Largo = ", *largo1)
