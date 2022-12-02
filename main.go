@@ -33,7 +33,6 @@ var oldDir byte      //Direccion de la serpiente.
 var posComida Coords //Coordenadas de comida
 
 type MyGrilla [][]string //Grilla
-var Score int
 
 func (grilla MyGrilla) String() string {
 	out := "█"
