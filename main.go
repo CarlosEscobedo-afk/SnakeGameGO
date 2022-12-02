@@ -30,7 +30,7 @@ import (
 var ancho, largo int //Tamaño de la grilla.
 var Dir byte         //Direccion de la serpiente.
 var oldDir byte      //Direccion de la serpiente.
-var posComida Coords
+var posComida Coords //Coordenadas de comida
 
 type MyGrilla [][]string //Grilla
 var Score int
