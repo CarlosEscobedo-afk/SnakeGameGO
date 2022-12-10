@@ -77,6 +77,8 @@ func (s *Snake) quitarCola() Coords {
 	return temp
 }
 
+//RETORNO DE CARRO GOLANG (hacer que la matriz se refresque bonito)
+
 // FUNCIONES------------------------------------------------------------------------------------------------------------------------------------------------
 func colocarComida(grilla MyGrilla) {
 	seed := rand.NewSource(time.Now().UnixNano())
@@ -92,7 +94,6 @@ func colocarComida(grilla MyGrilla) {
 
 func posicionInicialSerpientes(s *Snake, grilla MyGrilla) {
 	s.lost = false
-	//Se muere porque sale, a veces, donde mismo que la comida.
 	time.Sleep(time.Millisecond * time.Duration(100))
 	rand.Seed(time.Now().UnixNano())
 	serpX, serpY := rand.Intn(int(ancho-1)), rand.Intn(int(largo-1))
@@ -195,6 +196,7 @@ func main() {
 	ch1 := make(chan byte)
 
 	go func(ch1 chan byte) {
+		// LA POSICIÓN DE LA SERPIENTE NO DEBE CREAR UNA NUEVA GRILLA
 		posicionInicialSerpientes(&snake1, grilla)
 		//Movimiento serpiente
 		for {
