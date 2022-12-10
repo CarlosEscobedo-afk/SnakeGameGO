@@ -30,10 +30,9 @@ import (
 var ancho, largo int //Tamaño de la grilla.
 var Dir byte         //Direccion de la serpiente.
 var oldDir byte      //Direccion de la serpiente.
-var posComida Coords
+var posComida Coords //Coordenadas de comida
 
 type MyGrilla [][]string //Grilla
-var Score int
 
 func (grilla MyGrilla) String() string {
 	out := "█"
@@ -107,7 +106,7 @@ func verificar() {
 	n, o := Dir, oldDir
 	if (n == 0 && o == 1) || (n == 1 && o == 0) || (n == 3 && o == 2) || (n == 2 && o == 3) {
 		Dir = oldDir
-		fmt.Println("N:", n, "o:", o)
+
 	}
 }
 
@@ -205,14 +204,18 @@ func main() {
 			time.Sleep(time.Millisecond * time.Duration(100))
 			if posComida.X > snake1.Cola[last].X {
 				time.Sleep(time.Millisecond * time.Duration(100))
-				if Dir == 0 && snake1.Cola[last].Y-1 > 0 {
+				if Dir == 0 && snake1.Cola[last].Y-1 > 0 && (grilla[snake1.Cola[last].X][snake1.Cola[last].Y-1] == " " || grilla[snake1.Cola[last].X][snake1.Cola[last].Y-1] == "◈") {
 					oldDir = 0
 					ch1 <- 2
-				} else if Dir == 0 && snake1.Cola[last].Y-1 == 0 {
+				} else if Dir == 0 && snake1.Cola[last].Y-1 == 0 && (grilla[snake1.Cola[last].X][snake1.Cola[last].Y+1] == " " || grilla[snake1.Cola[last].X][snake1.Cola[last].Y+1] == "◈") {
 					oldDir = 0
 					ch1 <- 3
+				} else if Dir == 0 && (grilla[snake1.Cola[last].X+1][snake1.Cola[last].Y] == " " || grilla[snake1.Cola[last].X+1][snake1.Cola[last].Y] == "◈") {
+					oldDir = 0
+					ch1 <- 0
+				} else {
+					ch1 <- 1
 				}
-				ch1 <- 1
 			} else if posComida.X < snake1.Cola[last].X {
 				time.Sleep(time.Millisecond * time.Duration(100))
 				ch1 <- 0
@@ -222,11 +225,11 @@ func main() {
 					//Estos aun estan con pruebas
 					//Condiciones para "evitar" Deadlock
 					//if Dir == 2 && snake1.Cola[last].X-1 > 0 && grilla[snake1.Cola[last].X-1][snake1.Cola[last].Y] == "" {
-					if Dir == 2 && snake1.Cola[last].X-1 > 0 {
+					if Dir == 2 && snake1.Cola[last].X-1 > 0 && (grilla[snake1.Cola[last].X-1][snake1.Cola[last].Y] == " " || grilla[snake1.Cola[last].X-1][snake1.Cola[last].Y] == "◈") {
 						fmt.Println("<- to up")
 						oldDir = 2
 						ch1 <- 0
-					} else if Dir == 2 && snake1.Cola[last].X-1 == 0 {
+					} else if Dir == 2 && snake1.Cola[last].X-1 == 0 && (grilla[snake1.Cola[last].X+1][snake1.Cola[last].Y] == " " || grilla[snake1.Cola[last].X+1][snake1.Cola[last].Y] == "◈") {
 						fmt.Println("<- to down")
 						oldDir = 2
 						ch1 <- 1
@@ -235,11 +238,11 @@ func main() {
 					}
 
 				} else if posComida.Y < snake1.Cola[last].Y {
-					if Dir == 3 && snake1.Cola[last].X-1 > 0 {
+					if Dir == 3 && snake1.Cola[last].X-1 > 0 && (grilla[snake1.Cola[last].X-1][snake1.Cola[last].Y] == " " || grilla[snake1.Cola[last].X-1][snake1.Cola[last].Y] == "◈") {
 						fmt.Println("-> to up")
 						oldDir = 3
 						ch1 <- 0
-					} else if Dir == 3 && snake1.Cola[last].X-1 == 0 {
+					} else if Dir == 3 && snake1.Cola[last].X-1 == 0 && (grilla[snake1.Cola[last].X+1][snake1.Cola[last].Y] == " " || grilla[snake1.Cola[last].X+1][snake1.Cola[last].Y] == "◈") {
 						fmt.Println("-> to down")
 						oldDir = 3
 						ch1 <- 1
